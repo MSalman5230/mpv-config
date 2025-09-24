@@ -71,12 +71,68 @@ This enables:
 3. Cut and move them up one folder level (to where `mpv.exe` is located)
 4. then delete the vapoursynth-portable, make sure you copied all the files to where mpv.exe is.
 
+## Rife GPU Motion Interpolation Setup
+
+For advanced GPU-accelerated motion interpolation using Rife, follow these additional steps:
+
+### Prerequisites for Rife
+- NVIDIA GPU with CUDA support
+- Python 3.8+ (embedded Python from VapourSynth installation)
+
+### Step 1: Open Command Prompt in MPV Folder
+
+1. Navigate to your MPV installation folder (where `mpv.exe` is located)
+2. Open Command Prompt in this folder:
+   - Right-click in the folder while holding Shift
+   - Select "Open PowerShell window here" or "Open Command Prompt window here"
+   - Or use `cd` command to navigate to the MPV folder
+
+### Step 2: Install Python Dependencies
+
+Run the following commands in the Command Prompt to install PyTorch and TensorRT for GPU acceleration:
+
+```cmd
+python -m pip install -U packaging setuptools wheel
+python -m pip install -U torch torchvision torch_tensorrt --index-url https://download.pytorch.org/whl/cu126 --extra-index-url https://pypi.nvidia.com
+```
+
+**Note**: These commands use the embedded Python from your VapourSynth installation. Make sure you're in the MPV folder where the Python executable is located.
+
+### Step 3: Configure Rife Scripts
+
+The repository includes Rife motion interpolation scripts:
+- `rife.vpy`: Main Rife interpolation script
+- `rife_config.py`: Configuration file for Rife settings
+- `motioninterpolation_high.vpy`: High-quality Rife interpolation
+
+### Step 4: Add Rife Keybindings
+
+Add these lines to your `input.conf` for Rife interpolation:
+
+```
+KP6 vf toggle vapoursynth=~~/scripts/rife.vpy
+KP7 vf toggle vapoursynth=~~/scripts/motioninterpolation_high.vpy
+```
+
+This enables:
+- **Numpad 6**: Activates Rife motion interpolation
+- **Numpad 7**: Activates high-quality Rife interpolation
+
+### Rife Performance Notes
+
+- **GPU Memory**: Rife requires significant GPU memory (4GB+ recommended)
+- **Processing Time**: First-time processing may take longer as models are loaded
+- **Quality**: Rife provides superior motion interpolation compared to traditional methods
+- **Compatibility**: Works best with NVIDIA GPUs and CUDA 12.6
+
 ## Usage
 
 1. Run any video file (ideally 1080p or less and under 60fps for best results)
 2. Press **Numpad 4** for basic motion interpolation
 3. Press **Numpad 5** for enhanced motion interpolation
-4. Press the same key again to toggle off
+4. Press **Numpad 6** for Rife motion interpolation
+5. Press **Numpad 7** for high-quality Rife interpolation
+6. Press the same key again to toggle off
 
 ### Video Requirements
 
